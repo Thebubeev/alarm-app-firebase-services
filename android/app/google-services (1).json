@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "38076457598",
+    "project_id": "flutter-alarm-eccc4",
+    "storage_bucket": "flutter-alarm-eccc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38076457598:android:ed07c591e2a5c7bad4ae2f",
+        "android_client_info": {
+          "package_name": "com.alarm.flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38076457598-1pe61vikhmoubk3ad90vcb2aphloo4nh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alarm.flutter",
+            "certificate_hash": "e01395b6e6d96a9b74b062bd8c5438b87eec5ab9"
+          }
+        },
+        {
+          "client_id": "38076457598-6tcldaacfp31beki57qftk9u0g6jpk17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaT6-5xOwHUqt9M-EowI71VMd6MKWhgR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38076457598-6tcldaacfp31beki57qftk9u0g6jpk17.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
