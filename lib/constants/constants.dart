@@ -14,3 +14,4 @@ final borderRad = BorderRadius.only(
   bottomRight: Radius.circular(10.0),
   topRight: Radius.circular(10.0),
 );
+
