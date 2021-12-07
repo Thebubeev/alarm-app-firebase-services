@@ -21,10 +21,6 @@ class _HomePageState extends State<HomePage> {
           providers: [
             ChangeNotifierProvider<NotificationFunctions>.value(
                 value: NotificationFunctions()),
-            StreamProvider(
-              initialData: 0,
-              create: (_) => StreamTimeProvider().intStream(),
-            )
           ],
           child: Scaffold(
             appBar: AppBar(

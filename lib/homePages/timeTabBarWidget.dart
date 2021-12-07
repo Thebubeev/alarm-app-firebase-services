@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_alarm_rays7c/constants/constants.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class TimeTabBarWidget extends StatefulWidget {
   const TimeTabBarWidget({Key key}) : super(key: key);
@@ -15,23 +14,24 @@ class _TimeTabBarWidgetState extends State<TimeTabBarWidget> {
       Stream.periodic(const Duration(seconds: 1)).asBroadcastStream();
   @override
   Widget build(BuildContext context) {
-    var _value = Provider.of<int>(context);
-     return Container(
-        child: Center(
-            child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('StreamProvider Example', style: TextStyle(fontSize: 20)),
-        SizedBox(height: 50),
-        Text('${_value.toString()}',
-            style: Theme.of(context).textTheme.headline4)
-      ],
-    )));
-  }
-}
-
-class StreamTimeProvider extends ChangeNotifier {
-  Stream<int> intStream() {
-    return Stream<int>.periodic(const Duration(seconds: 1)).asBroadcastStream();
+    return StreamBuilder(
+      stream: stream,
+      builder: (context, snapshot) {
+        return Align(
+          child: Container(
+            width: 250,
+            height: 80,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30), color: Colors.black),
+            child: Center(
+              child: Text(
+                DateFormat('hh:mm:ss').format(DateTime.now()),
+                style: TextStyle(fontSize: 50, color: Colors.white),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
