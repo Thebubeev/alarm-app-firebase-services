@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -17,7 +19,7 @@ class NotificationService {
 
   Future<void> initNotification() async {
     final AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@drawable/ic_flutternotification');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
@@ -41,16 +43,20 @@ class NotificationService {
       title,
       body,
       tz.TZDateTime.now(tz.local).add(Duration(seconds: seconds)),
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-            'main_channel', 'Main Channel', 'Main channel notifications',
+      NotificationDetails(
+        android: AndroidNotificationDetails('channel_two', 'Channel Two','Hello man',
             color: Colors.black,
-            sound: RawResourceAndroidNotificationSound('signal'),
+            playSound: true,
+            ongoing: true,
+            enableLights: true,
+            fullScreenIntent: true,
+            sound: RawResourceAndroidNotificationSound('birds'),
             importance: Importance.max,
-            priority: Priority.max,
+            enableVibration: true,
+            priority: Priority.high,
             icon: '@mipmap/ic_launcher'),
         iOS: IOSNotificationDetails(
-          sound: 'signal.wav',
+          sound: 'birds.mp3',
           presentAlert: true,
           presentBadge: true,
           presentSound: true,

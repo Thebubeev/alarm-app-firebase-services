@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_rays7c/homePages/ListAlarmsTabBarWidget.dart';
 import 'package:flutter_alarm_rays7c/homePages/alarmTabBarWidget.dart';
 import 'package:flutter_alarm_rays7c/homePages/timeTabBarWidget.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 2,
+        length: 3,
         child: MultiProvider(
           providers: [
             ChangeNotifierProvider<NotificationFunctions>.value(
@@ -43,6 +44,10 @@ class _HomePageState extends State<HomePage> {
                     text: "Alarm",
                   ),
                   Tab(
+                    icon: Icon(Icons.alarm_on_sharp),
+                    text: 'Your alarms',
+                  ),
+                  Tab(
                     icon: Icon(Icons.access_time),
                     text: "Clock",
                   ),
@@ -54,6 +59,7 @@ class _HomePageState extends State<HomePage> {
             body: TabBarView(
               children: [
                 AlarmTabBarWidget(),
+                ListAlarmTabBarWidgets(),
                 TimeTabBarWidget(),
               ],
             ),
