@@ -1,14 +1,10 @@
-
 import 'package:flutter_alarm_rays7c/models/alarm_info.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
-final String tableAlarm = 'alarm';
+final String tableAlarm = 'alarm_data';
 final String columnId = 'id';
 final String columnTitle = 'title';
 final String columnDateTime = 'alarmDateTime';
-final String columnPending = 'isPending';
-final String columnColorIndex = 'gradientColorIndex';
 
 class AlarmHelper {
   static Database _database;
@@ -31,18 +27,14 @@ class AlarmHelper {
 
   Future<Database> initializeDatabase() async {
     var dir = await getDatabasesPath();
-    var path = dir + "alarm.db";
+    var path = dir + "alarmdata.db";
 
     var database = await openDatabase(
       path,
-      version: 1,
+      version: 5,
       onCreate: (db, version) {
-        db.execute('''
-          create table $tableAlarm ( 
-          $columnId integer primary key autoincrement, 
-          $columnTitle text not null,
-          $columnDateTime text not null,)
-        ''');
+        db.execute(
+            'CREATE TABLE $tableAlarm($columnId INTEGER PRIMARY KEY AUTOINCREMENT, $columnTitle TEXT, $columnDateTime TEXT)');
       },
     );
     return database;
@@ -70,5 +62,10 @@ class AlarmHelper {
   Future<int> delete(int id) async {
     var db = await this.database;
     return await db.delete(tableAlarm, where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteAllAlarm() async {
+    var db = await this.database;
+    return await db.delete(tableAlarm);
   }
 }

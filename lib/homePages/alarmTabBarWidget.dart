@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_rays7c/Services/Alarm_helper.dart';
 import 'package:flutter_alarm_rays7c/Services/NotificationServices.dart';
 import 'package:flutter_alarm_rays7c/constants/constants.dart';
+import 'package:flutter_alarm_rays7c/models/alarm_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -13,114 +15,179 @@ class AlarmTabBarWidget extends StatefulWidget {
 }
 
 class _AlarmTabBarWidgetState extends State<AlarmTabBarWidget> {
+  AlarmHelper _alarmHelper = AlarmHelper();
+  Future<List<AlarmInfo>> _alarms;
+
   @override
   void initState() {
-    super.initState();
+    _alarmHelper.initializeDatabase().then((value) {
+      print('------database intialized');
+      context.read<NotificationFunctions>().loadAlarms();
+    });
     tz.initializeTimeZones();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Consumer<NotificationFunctions>(
-          builder: (context, value, child) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(15),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Consumer<NotificationFunctions>(
+              builder: (context, value, child) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        textStyle: usualText),
+                    onPressed: () {
+                      print('Notification starts - 1:30 hour');
+                      context.read<NotificationFunctions>().showNotification(
+                          1, "Alarm is on", "Wake up!", 5400, context);
+                      context.read<NotificationFunctions>().fluttertoast(
+                          'You succesfully set your alarm in 1:30 hour');
+                      context.read<NotificationFunctions>().onSaveAlarm(1, 30);
+                      print('Alarm in 1:30 hour is saved');
+                    },
+                    child: Text('Set 1:30 hour'),
+                  ),
+                );
+              },
+            ),
+            Consumer<NotificationFunctions>(builder: (context, value, child) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      textStyle: usualText),
+                  onPressed: () {
+                    print('Notification starts - 2:15 hour');
+                   context.read<NotificationFunctions>()
+                        .showNotification(
+                            2, "Alarm is on", "Wake up!", 8100, context);
+                    context.read<NotificationFunctions>()
+                        .fluttertoast(
+                            'You succesfully set your alarm in 2:15 hour');
+                   context.read<NotificationFunctions>()
+                        .onSaveAlarm(2, 15);
+                    print('Alarm in 2:15 hour is saved');
+                  },
+                  child: Text('Set 2:15 hour'),
+                ),
+              );
+            }),
+            Consumer<NotificationFunctions>(builder: (context, value, child) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      textStyle: usualText),
+                  onPressed: () {
+                    print('Notification starts - 3 hour');
+                   context.read<NotificationFunctions>()
+                        .showNotification(
+                            3, "Alarm is on", "Wake up!", 10800, context);
+                  context.read<NotificationFunctions>()
+                        .fluttertoast(
+                            'You succesfully set your alarm in 3 hour');
+
+                  context.read<NotificationFunctions>()
+                        .onSaveAlarm(3, 0);
+                    print('Alarm in 3 hour is saved');
+                  },
+                  child: Text('Set 3 hour'),
+                ),
+              );
+            }),
+            Consumer<NotificationFunctions>(builder: (context, value, child) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      textStyle: usualText),
+                  onPressed: () {
+                    print('Notification starts - 6 hour');
+                  context.read<NotificationFunctions>()
+                        .showNotification(
+                            4, "Alarm is on", "Wake up!", 21600, context);
+                    context.read<NotificationFunctions>()
+                        .fluttertoast(
+                            'You succesfully set your alarm in 6 hour');
+
+                  context.read<NotificationFunctions>()
+                        .onSaveAlarm(6, 0);
+                    print('Alarm is saved for 6 hour');
+                  },
+                  child: Text('Set 6 hour'),
+                ),
+              );
+            }),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    primary: Colors.redAccent[700],
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: usualText),
-                onPressed: () {
-                  print('Notification starts - 15 min');
-                  value.showNotification(
-                          1, "Alarm is on", "Wake up!", 5, context);
-                  value.fluttertoast('You succesfully set your alarm in 15 min');
+                onPressed: () async {
+                  await context.read<NotificationFunctions>()
+                      .showAlertDialog(
+                          context,
+                         context.read<NotificationFunctions>()
+                              .cancelAllNotification);
                 },
-                child: Text('Set 15 min'),
+                child: Text(
+                  'Cancel all alarms',
+                ),
               ),
-            );
-          },
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                textStyle: usualText),
-            onPressed: () {
-              print('Notification starts - 30 min');
-              Provider.of<NotificationFunctions>(context, listen: false)
-                  .showNotification(2, "Alarm is on", "Wake up!", 25, context);
-              Provider.of<NotificationFunctions>(context, listen: false)
-                  .fluttertoast('You succesfully set your alarm in 30 min');
-            },
-            child: Text('Set 30 min'),
-          ),
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                textStyle: usualText),
-            onPressed: () {
-              print('Notification starts - 45 min');
-              Provider.of<NotificationFunctions>(context, listen: false)
-                  .showNotification(3, "Alarm is on", "Wake up!", 125, context);
-              Provider.of<NotificationFunctions>(context, listen: false)
-                  .fluttertoast('You succesfully set your alarm in 45 min');
-            },
-            child: Text('Set 45 min'),
-          ),
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                textStyle: usualText),
-            onPressed: () {
-              print('Notification starts - 60 min');
-              Provider.of<NotificationFunctions>(context, listen: false)
-                  .showNotification(4, "Alarm is on", "Wake up!", 125, context);
-              Provider.of<NotificationFunctions>(context, listen: false)
-                  .fluttertoast('You succesfully set your alarm in 60 min');
-            },
-            child: Text('Set 60 min'),
-          ),
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.redAccent[700],
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                textStyle: usualText),
-            onPressed: () async {
-              await Provider.of<NotificationFunctions>(context, listen: false)
-                  .showAlertDialog(
-                      context,
-                      Provider.of<NotificationFunctions>(context, listen: false)
-                          .cancelAllNotification);
-            },
-            child: Text(
-              'Cancel all alarms',
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
 
 class NotificationFunctions extends ChangeNotifier {
+  AlarmHelper _alarmHelper = AlarmHelper();
+  Future<List<AlarmInfo>> _alarms;
+
+  void onSaveAlarm(int hour, int minute) {
+    DateTime scheduleAlarmDateTime = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        DateTime.now().hour + hour,
+        DateTime.now().minute + minute,
+        DateTime.now().second);
+
+    var alarmInfo = AlarmInfo(
+      alarmDateTime: scheduleAlarmDateTime,
+      title: 'Your alarm is set!',
+    );
+    _alarmHelper.insertAlarm(alarmInfo);
+    loadAlarms();
+  }
+
+  void loadAlarms() {
+    _alarms = _alarmHelper.getAlarms();
+  }
+
   void showNotification(
       int id, String title, String body, int seconds, BuildContext context) {
     NotificationService().showNotification(id, title, body, seconds, context);
@@ -131,11 +198,15 @@ class NotificationFunctions extends ChangeNotifier {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              backgroundColor: Colors.black,
               contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 15),
               title: Center(
                   child: const Text('Are you sure?',
                       style: TextStyle(
                           fontSize: 25,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Gilroy'))),
               content: Row(
@@ -148,7 +219,7 @@ class NotificationFunctions extends ChangeNotifier {
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Gilroy',
-                          color: Colors.black),
+                          color: Colors.white),
                     ),
                   ),
                   TextButton(
@@ -162,13 +233,13 @@ class NotificationFunctions extends ChangeNotifier {
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Gilroy',
-                          color: Colors.black),
+                          color: Colors.white),
                     ),
                   ),
                 ],
               ),
             ));
-
+    _alarmHelper.deleteAllAlarm();
     notifyListeners();
   }
 

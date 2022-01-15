@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_rays7c/models/alarm_info.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -44,15 +45,17 @@ class NotificationService {
       body,
       tz.TZDateTime.now(tz.local).add(Duration(seconds: seconds)),
       NotificationDetails(
-        android: AndroidNotificationDetails('channel_two', 'Channel Two','Hello man',
+        android: AndroidNotificationDetails(
+            'channel_two', 'Channel Two', 'Hello man',
             color: Colors.black,
             playSound: true,
             ongoing: true,
-            enableLights: true,
+            enableLights: false,
+            additionalFlags: Int32List.fromList(<int>[4]),
             fullScreenIntent: true,
             sound: RawResourceAndroidNotificationSound('birds'),
             importance: Importance.max,
-            enableVibration: true,
+            enableVibration: false,
             priority: Priority.high,
             icon: '@mipmap/ic_launcher'),
         iOS: IOSNotificationDetails(
@@ -79,5 +82,9 @@ class NotificationService {
 
   Future<void> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Future<void> cancelNotifications(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 }
