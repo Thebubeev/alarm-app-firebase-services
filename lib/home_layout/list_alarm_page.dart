@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alarm_rays7c/Services/Alarm_helper.dart';
-import 'package:flutter_alarm_rays7c/Services/NotificationServices.dart';
-import 'package:flutter_alarm_rays7c/models/alarm_info.dart';
+import 'package:flutter_alarm_rays7c/Services/alarm_helper_service.dart';
+import 'package:flutter_alarm_rays7c/Services/provider.dart';
+import 'package:flutter_alarm_rays7c/models/alarm_info_model.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/src/provider.dart';
 
-class ListAlarmTabBarWidgets extends StatefulWidget {
-  const ListAlarmTabBarWidgets({Key key}) : super(key: key);
+class ListAlarmLayout extends StatefulWidget {
+  const ListAlarmLayout({Key key}) : super(key: key);
 
   @override
-  _ListAlarmTabBarWidgetsState createState() => _ListAlarmTabBarWidgetsState();
+  _ListAlarmLayoutState createState() => _ListAlarmLayoutState();
 }
 
-class _ListAlarmTabBarWidgetsState extends State<ListAlarmTabBarWidgets> {
+class _ListAlarmLayoutState extends State<ListAlarmLayout> {
   AlarmHelper _alarmHelper = AlarmHelper();
   Future<List<AlarmInfo>> _alarms;
 
@@ -26,12 +27,6 @@ class _ListAlarmTabBarWidgetsState extends State<ListAlarmTabBarWidgets> {
     if (mounted) setState(() {});
   }
 
-  void deleteAlarm(int id) {
-    _alarmHelper.delete(id);
-    //unsubscribe for notification
-    loadAlarms();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +36,9 @@ class _ListAlarmTabBarWidgetsState extends State<ListAlarmTabBarWidgets> {
             child: FutureBuilder<List<AlarmInfo>>(
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
                 if (snapshot.data.isEmpty) {
                   return Center(
@@ -56,11 +53,6 @@ class _ListAlarmTabBarWidgetsState extends State<ListAlarmTabBarWidgets> {
                     itemCount: snapshot.data.length,
                   );
                 }
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error...'),
-                  );
-                }
                 return CircularProgressIndicator();
               },
               future: _alarms,
@@ -73,10 +65,8 @@ class _ListAlarmTabBarWidgetsState extends State<ListAlarmTabBarWidgets> {
       child: Dismissible(
         direction: DismissDirection.startToEnd,
         onDismissed: (direction) {
-          setState(() {
-            deleteAlarm(alarmInfo.id);
-            print('deleted result : ${alarmInfo.id}');
-          });
+          context.read<NotificationFunctions>().deleteAlarm(alarmInfo.id);
+          print('deleted result : ${alarmInfo.id}');
         },
         background: Container(
           color: Colors.red,

@@ -1,18 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alarm_rays7c/homePages/ListAlarmsTabBarWidget.dart';
-import 'package:flutter_alarm_rays7c/homePages/alarmTabBarWidget.dart';
-import 'package:flutter_alarm_rays7c/homePages/timeTabBarWidget.dart';
+import 'package:flutter_alarm_rays7c/Services/provider.dart';
+import 'package:flutter_alarm_rays7c/home_layout/alarm_page.dart';
+import 'package:flutter_alarm_rays7c/home_layout/list_alarm_page.dart';
+import 'package:flutter_alarm_rays7c/home_layout/time_alarm_page.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+class HomeLayout extends StatefulWidget {
+  const HomeLayout({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeLayoutState createState() => _HomeLayoutState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeLayoutState extends State<HomeLayout> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
                     }),
               ],
               bottom: TabBar(
+                indicatorColor: Colors.white,
                 tabs: [
                   Tab(
                     icon: Icon(Icons.access_alarm),
@@ -59,9 +61,9 @@ class _HomePageState extends State<HomePage> {
             ),
             body: TabBarView(
               children: [
-                AlarmTabBarWidget(),
-                ListAlarmTabBarWidgets(),
-                TimeTabBarWidget(),
+                AlarmLayout(),
+                ListAlarmLayout(),
+                TimeAlarmLayout(),
               ],
             ),
           ),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alarm_rays7c/models/clock.dart';
+import 'package:flutter_alarm_rays7c/models/clock_model.dart';
 import 'package:intl/intl.dart';
 
-class TimeTabBarWidget extends StatefulWidget {
-  const TimeTabBarWidget({Key key}) : super(key: key);
+class TimeAlarmLayout extends StatefulWidget {
+  const TimeAlarmLayout({Key key}) : super(key: key);
 
   @override
-  _TimeTabBarWidgetState createState() => _TimeTabBarWidgetState();
+  _TimeAlarmLayoutState createState() => _TimeAlarmLayoutState();
 }
 
-class _TimeTabBarWidgetState extends State<TimeTabBarWidget> {
+class _TimeAlarmLayoutState extends State<TimeAlarmLayout> {
   Stream stream =
       Stream.periodic(const Duration(seconds: 1)).asBroadcastStream();
   @override

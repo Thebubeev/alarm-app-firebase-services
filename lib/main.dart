@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_alarm_rays7c/Services/NotificationServices.dart';
-import 'package:flutter_alarm_rays7c/authPages/forgot_page.dart';
-import 'package:flutter_alarm_rays7c/authPages/register_page.dart';
-import 'package:flutter_alarm_rays7c/homePages/home.dart';
-import 'authPages/login_page.dart';
-import 'authPages/wrapper_page.dart';
+import 'package:flutter_alarm_rays7c/Services/notification_service.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/forgot_page.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/login_page.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/register_page.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/wrapper_page.dart';
+import 'package:flutter_alarm_rays7c/home_layout/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       '/signIn': (context) => LoginPage(),
       '/wrapper': (context) => Wrapper(),
       '/forgot': (context) => ForgotPassword(),
-      '/home': (context) => HomePage()
+      '/home': (context) => HomeLayout()
     }, title: 'Flutter Demo', home: AuthPage());
   }
 }
@@ -51,7 +51,7 @@ class AuthPage extends StatelessWidget {
                   if (user == null) {
                     return Wrapper();
                   } else {
-                    return HomePage();
+                    return HomeLayout();
                   }
                 }
                 return CircularProgressIndicator();

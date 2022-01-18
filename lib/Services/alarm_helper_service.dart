@@ -1,4 +1,4 @@
-import 'package:flutter_alarm_rays7c/models/alarm_info.dart';
+import 'package:flutter_alarm_rays7c/models/alarm_info_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 final String tableAlarm = 'alarm_data';

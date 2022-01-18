@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alarm_rays7c/Services/AuthService.dart';
-import 'package:flutter_alarm_rays7c/constants/loading_page.dart';
+import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
+import 'package:flutter_alarm_rays7c/constants/loading.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -82,70 +82,73 @@ class _RegisterPageState extends State<RegisterPage> {
     return _isLoading
         ? Loading()
         : Scaffold(
-            body: Form(
-              key: _formKey,
-              child: SafeArea(
-                child: ListView(
-                  padding: EdgeInsets.all(30),
-                  children: [
-                    IconButton(
-                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                        alignment: Alignment.topLeft,
-                        icon: Icon(Icons.arrow_back_ios),
-                        iconSize: 35,
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/wrapper');
-                        }),
-                    showAlert(),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Text(
-                      'Sign Up',
-                      style: TextStyle(fontSize: 55),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    textFormEmailField(_emailController),
-                    textFormPassField(_passController),
-                    textFormConfirmPassField(
-                        _passController, _confirmPassController),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        if (_formKey.currentState
-                            .validate()) // validate the textfields
-                        {
-                          _formKey.currentState.save();
-                          _submitForm();
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          color: Colors.black,
-                        ),
-                        height: 80,
-                        width: 340,
-                        child: Center(
-                            child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Gilroy',
-                              fontSize: 17),
-                        )),
+            body: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Form(
+                key: _formKey,
+                child: SafeArea(
+                  child: ListView(
+                    padding: EdgeInsets.all(30),
+                    children: [
+                      IconButton(
+                          padding: EdgeInsets.only(top: 15, bottom: 15),
+                          alignment: Alignment.topLeft,
+                          icon: Icon(Icons.arrow_back_ios),
+                          iconSize: 35,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/wrapper');
+                          }),
+                      showAlert(),
+                      SizedBox(
+                        height: 25,
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Sign Up',
+                        style: TextStyle(fontSize: 55),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      textFormEmailField(_emailController),
+                      textFormPassField(_passController),
+                      textFormConfirmPassField(
+                          _passController, _confirmPassController),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          if (_formKey.currentState
+                              .validate()) // validate the textfields
+                          {
+                            _formKey.currentState.save();
+                            _submitForm();
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                            ),
+                            color: Colors.black,
+                          ),
+                          height: 80,
+                          width: 340,
+                          child: Center(
+                              child: Text(
+                            'Sign Up',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Gilroy',
+                                fontSize: 17),
+                          )),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

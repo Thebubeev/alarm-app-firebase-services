@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alarm_rays7c/Services/AuthService.dart';
-import 'package:flutter_alarm_rays7c/constants/loading_page.dart';
+import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
+import 'package:flutter_alarm_rays7c/constants/loading.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -69,8 +69,8 @@ class _LoginPageState extends State<LoginPage> {
             setState(() {
               _warning = "Your password is invalid";
             });
-            break; 
-               case "[firebase_auth/unknown] Given String is empty or null":
+            break;
+          case "[firebase_auth/unknown] Given String is empty or null":
             setState(() {
               _warning = "Your credentials are invalid";
             });
@@ -82,77 +82,80 @@ class _LoginPageState extends State<LoginPage> {
     return _isLoading
         ? Loading()
         : Scaffold(
-            body: Form(
-              key: _formKey,
-              child: SafeArea(
-                child: ListView(
-                  padding: EdgeInsets.all(30),
-                  children: [
-                    IconButton(
-                        padding: EdgeInsets.only(top: 15, bottom: 15),
-                        alignment: Alignment.topLeft,
-                        icon: Icon(Icons.arrow_back_ios),
-                        iconSize: 35,
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/wrapper');
-                        }),
-                    showAlert(),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Text(
-                      'Rays7c',
-                      style: TextStyle(fontSize: 70),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    textFormEmailField(_emailController),
-                    textFormPassField(_passController),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        if (_formKey.currentState
-                            .validate()) /* Автоматически обновляет состояние */ {
-          _formKey.currentState.save();
-                          _submitForm();
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          color: Colors.black,
-                        ),
-                        height: 80,
-                        width: 340,
-                        child: Center(
-                            child: Text(
-                          'Sign In',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Gilroy',
-                              fontSize: 17),
-                        )),
+            body: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Form(
+                key: _formKey,
+                child: SafeArea(
+                  child: ListView(
+                    padding: EdgeInsets.all(30),
+                    children: [
+                      IconButton(
+                          padding: EdgeInsets.only(top: 15, bottom: 15),
+                          alignment: Alignment.topLeft,
+                          icon: Icon(Icons.arrow_back_ios),
+                          iconSize: 35,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/wrapper');
+                          }),
+                      showAlert(),
+                      SizedBox(
+                        height: 25,
                       ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/forgot');
+                      Text(
+                        'Sign In',
+                        style: TextStyle(fontSize: 70),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      textFormEmailField(_emailController),
+                      textFormPassField(_passController),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          if (_formKey.currentState
+                              .validate()) /* Автоматически обновляет состояние */ {
+                            _formKey.currentState.save();
+                            _submitForm();
+                          }
                         },
                         child: Container(
-                          child: Text(
-                            'Forgot your password?',
-                            style: TextStyle(color: Colors.black),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                            ),
+                            color: Colors.black,
                           ),
-                        ))
-                  ],
+                          height: 80,
+                          width: 340,
+                          child: Center(
+                              child: Text(
+                            'Sign In',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Gilroy',
+                                fontSize: 17),
+                          )),
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/forgot');
+                          },
+                          child: Container(
+                            child: Text(
+                              'Forgot your password?',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
               ),
             ),
