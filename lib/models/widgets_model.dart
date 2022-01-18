@@ -10,13 +10,17 @@ final _emailFocus = FocusNode();
 final _passFocus = FocusNode();
 final _confirmPassFocus = FocusNode();
 
-String _warning;
-bool _isPasswordVisible;
+bool _isPasswordVisible = false;
 
-class TextFormEmailField extends StatelessWidget {
+class TextFormEmailField extends StatefulWidget {
   final TextEditingController emailController;
   const TextFormEmailField({Key key, this.emailController}) : super(key: key);
 
+  @override
+  State<TextFormEmailField> createState() => _TextFormEmailFieldState();
+}
+
+class _TextFormEmailFieldState extends State<TextFormEmailField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -30,7 +34,7 @@ class TextFormEmailField extends StatelessWidget {
           borderSide: BorderSide(color: Colors.grey),
         ),
       ),
-      controller: emailController,
+      controller: widget.emailController,
       autofocus: true,
       onFieldSubmitted: (_) {
         _fieldFocusChange(context, _emailFocus, _passFocus);
@@ -46,7 +50,9 @@ class TextFormEmailField extends StatelessWidget {
         }
       },
       onSaved: (val) {
-        emailController.text = val;
+        setState(() {
+          widget.emailController.text = val;
+        });
       },
     );
   }
@@ -103,7 +109,9 @@ class _TextFormPassFieldState extends State<TextFormPassField> {
       },
       obscureText: _isPasswordVisible ? false : true,
       onSaved: (val) {
-        widget.passController.text = val;
+        setState(() {
+          widget.passController.text = val;
+        });
       },
     );
   }
@@ -147,14 +155,14 @@ class _TextFormConfirmPassFieldState extends State<TextFormConfirmPassField> {
             ),
           )),
       controller: widget.confirmPassController,
-      autofocus: false,
+      autofocus: true,
       focusNode: _confirmPassFocus,
       validator: (String val) {
         if (val.isEmpty) {
           return 'Enter password';
         } else if (val.length < 6) {
           return 'Password must contain more than 6 letters';
-        } else if (val != widget.confirmPassController.text) {
+        } else if (val != widget.passController.text) {
           return "Password must be the same";
         } else {
           return null;
@@ -162,8 +170,94 @@ class _TextFormConfirmPassFieldState extends State<TextFormConfirmPassField> {
       },
       obscureText: _isPasswordVisible ? false : true,
       onSaved: (val) {
-        widget.passController.text = val;
+        setState(() {
+          widget.passController.text = val;
+        });
       },
     );
   }
 }
+
+class ShowAlert extends StatefulWidget {
+  String warning;
+  ShowAlert({Key key, @required this.warning}) : super(key: key);
+
+  @override
+  State<ShowAlert> createState() => _ShowAlertState();
+}
+
+class _ShowAlertState extends State<ShowAlert> {
+  @override
+  Widget build(BuildContext context) {
+    if (widget.warning != null) {
+      return Container(
+        color: Colors.redAccent,
+        child: Row(
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Icon(Icons.error_outline)),
+            Expanded(
+              child: Text(
+                widget.warning,
+                style: TextStyle(
+                    fontSize: 18, fontFamily: 'Gilroy', color: Colors.white),
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    widget.warning = null;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return SizedBox(height: 0);
+  }
+}
+
+Widget iconBackButton(BuildContext context, String text) => IconButton(
+    padding: EdgeInsets.only(top: 15, bottom: 15),
+    alignment: Alignment.topLeft,
+    icon: Icon(Icons.arrow_back_ios),
+    iconSize: 35,
+    onPressed: () {
+      Navigator.pushNamed(context, '/$text');
+    });
+
+Widget enterButton(GlobalKey<FormState> _formKey, Function _submitForm, String text) =>
+    GestureDetector(
+        onTap: () async {
+          if (_formKey.currentState.validate()) // validate the textfields
+          {
+            _formKey.currentState.save();
+            _submitForm();
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              bottomLeft: Radius.circular(10.0),
+              bottomRight: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+            color: Colors.black,
+          ),
+          height: 80,
+          width: 340,
+          child: Center(
+              child: Text(
+            text,
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'Gilroy', fontSize: 17),
+          )),
+        ));

@@ -33,7 +33,7 @@ class _TimeAlarmLayoutState extends State<TimeAlarmLayout> {
                       color: Colors.white),
                   child: Center(
                     child: Text(
-                      DateFormat('hh:mm:ss').format(DateTime.now()),
+                      DateFormat('kk:mm:ss').format(DateTime.now()),
                       style: TextStyle(fontSize: 60, color: Colors.black),
                     ),
                   ),

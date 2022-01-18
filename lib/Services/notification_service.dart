@@ -40,12 +40,11 @@ class NotificationService {
 
   Future<void> showNotification(DateTime scheduledNotificationDateTime,
       AlarmInfo alarmInfo, BuildContext context) async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
+    await flutterLocalNotificationsPlugin.schedule(
       1,
       alarmInfo.title,
       DateFormat('HH:mm').format(scheduledNotificationDateTime),
-      tz.TZDateTime.now(tz.local)
-          .add(Duration(seconds: scheduledNotificationDateTime.second)),
+      scheduledNotificationDateTime,
       NotificationDetails(
         android: AndroidNotificationDetails(
             'channel_two', 'Channel Two', 'Hello man',
@@ -67,8 +66,6 @@ class NotificationService {
           presentSound: true,
         ),
       ),
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,
     );
   }

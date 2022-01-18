@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/alarm_helper_service.dart';
-import 'package:flutter_alarm_rays7c/Services/provider.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/provider.dart';
 import 'package:flutter_alarm_rays7c/constants/constants.dart';
 import 'package:flutter_alarm_rays7c/models/alarm_info_model.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +49,7 @@ class _AlarmLayoutState extends State<AlarmLayout> {
                       .fluttertoast('You succesfully set your alarm in 45 min');
                   context
                       .read<NotificationFunctions>()
-                      .onSaveAlarm(0, 0, context);
+                      .onSaveAlarm(0, 45, context);
                   print('Alarm in 45 minutes is saved');
                 },
                 child: Text('Set 45 min'),
@@ -64,12 +64,12 @@ class _AlarmLayoutState extends State<AlarmLayout> {
                     textStyle: usualText),
                 onPressed: () {
                   print('Notification starts - 1:30 hour');
-                  Provider.of<NotificationFunctions>(context, listen: false)
-                      .fluttertoast(
-                          'You succesfully set your alarm in 1:30 hour');
-                  Provider.of<NotificationFunctions>(context, listen: false)
-                      .onSaveAlarm(0, 1, context);
-                  print('Alarm is saved');
+                  context.read<NotificationFunctions>().fluttertoast(
+                      'You succesfully set your alarm in 1:30 hour');
+                  context
+                      .read<NotificationFunctions>()
+                      .onSaveAlarm(1, 30, context);
+                  print('Alarm in 1:30 hour is saved');
                 },
                 child: Text('Set 1:30 hour'),
               ),
@@ -82,16 +82,16 @@ class _AlarmLayoutState extends State<AlarmLayout> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     textStyle: usualText),
                 onPressed: () {
-                  print('Notification starts - 2:15 hour');
-                  Provider.of<NotificationFunctions>(context, listen: false)
-                      .fluttertoast(
-                          'You succesfully set your alarm in 2:15 hour');
-
-                  Provider.of<NotificationFunctions>(context, listen: false)
-                      .onSaveAlarm(0, 2, context);
-                  print('Alarm is saved');
+                  print('Notification starts - 3 hour');
+                  context
+                      .read<NotificationFunctions>()
+                      .fluttertoast('You succesfully set your alarm in 3 hour');
+                  context
+                      .read<NotificationFunctions>()
+                      .onSaveAlarm(3, 0, context);
+                  print('Alarm is saved for 3 hour');
                 },
-                child: Text('Set 2:15 hour'),
+                child: Text('Set 3 hour'),
               ),
             ),
             ClipRRect(
@@ -102,15 +102,16 @@ class _AlarmLayoutState extends State<AlarmLayout> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     textStyle: usualText),
                 onPressed: () {
-                  print('Notification starts - 3 hour');
-                  Provider.of<NotificationFunctions>(context, listen: false)
-                      .fluttertoast('You succesfully set your alarm in 3 hour');
-
-                  Provider.of<NotificationFunctions>(context, listen: false)
-                      .onSaveAlarm(0, 3, context);
-                  print('Alarm is saved for 3 hour');
+                  print('Notification starts - 6 hour');
+                  context
+                      .read<NotificationFunctions>()
+                      .fluttertoast('You succesfully set your alarm in 6 hour');
+                  context
+                      .read<NotificationFunctions>()
+                      .onSaveAlarm(6, 0, context);
+                  print('Alarm is saved for 6 hour');
                 },
-                child: Text('Set 3 hour'),
+                child: Text('Set 6 hour'),
               ),
             ),
             ClipRRect(
@@ -121,13 +122,16 @@ class _AlarmLayoutState extends State<AlarmLayout> {
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     textStyle: usualText),
                 onPressed: () async {
-                  await Provider.of<NotificationFunctions>(context,
-                          listen: false)
+                  await context
+                      .read<NotificationFunctions>()
                       .showAlertDialog(
                           context,
                           Provider.of<NotificationFunctions>(context,
                                   listen: false)
-                              .cancelAllNotification);
+                              .cancelAllNotification)
+                      .then((value) => context
+                          .read<NotificationFunctions>()
+                          .fluttertoast('You have deleted all alalrms!'));
                 },
                 child: Text(
                   'Cancel all alarms',

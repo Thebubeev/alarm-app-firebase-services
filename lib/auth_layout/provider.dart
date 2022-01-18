@@ -79,23 +79,26 @@ class NotificationFunctions extends ChangeNotifier {
               ),
             ));
     _alarmHelper.deleteAllAlarm();
+    loadAlarms();
     notifyListeners();
   }
 
   void cancelAllNotification() {
     NotificationService().cancelAllNotifications();
+    loadAlarms();
     notifyListeners();
   }
 
   void fluttertoast(String text) {
     Fluttertoast.showToast(
         msg: text,
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 10,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.black,
         textColor: Colors.white,
-        fontSize: 20.0);
+        fontSize: 15.0);
+    loadAlarms();
     notifyListeners();
   }
 

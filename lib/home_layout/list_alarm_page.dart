@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/alarm_helper_service.dart';
-import 'package:flutter_alarm_rays7c/Services/provider.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/provider.dart';
 import 'package:flutter_alarm_rays7c/models/alarm_info_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
