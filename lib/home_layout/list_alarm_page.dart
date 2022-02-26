@@ -27,6 +27,12 @@ class _ListAlarmLayoutState extends State<ListAlarmLayout> {
     if (mounted) setState(() {});
   }
 
+  Future<Null> refreshPage() async {
+    await Future.delayed(Duration(seconds: 2));
+    _alarms = _alarmHelper.getAlarms();
+    if (mounted) setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +52,17 @@ class _ListAlarmLayoutState extends State<ListAlarmLayout> {
                   );
                 }
                 if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      return _buildAlarm(snapshot.data[index]);
-                    },
-                    itemCount: snapshot.data.length,
+                  return RefreshIndicator(
+                    onRefresh: refreshPage,
+                    color: Colors.white,
+                    backgroundColor: Colors.red,
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return _buildAlarm(snapshot.data[index]);
+                      },
+                      itemCount: snapshot.data.length,
+                    ),
                   );
                 }
                 return CircularProgressIndicator();
@@ -66,6 +78,7 @@ class _ListAlarmLayoutState extends State<ListAlarmLayout> {
         direction: DismissDirection.startToEnd,
         onDismissed: (direction) {
           context.read<NotificationFunctions>().deleteAlarm(alarmInfo.id);
+          loadAlarms();
           print('deleted result : ${alarmInfo.id}');
         },
         background: Container(

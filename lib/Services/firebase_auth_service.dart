@@ -15,6 +15,7 @@ abstract class AuthBase {
   Future<Users> createUserWithEmailAndPassword(String email, String password);
   Future<void> resetPasswordUsingEmail(String email);
   Future<void> signOut();
+  Future<void> sendVerificationEmail();
 }
 
 class Auth implements AuthBase {
@@ -29,6 +30,12 @@ class Auth implements AuthBase {
     } else {
       return Users(uid: user.uid);
     }
+  }
+
+  @override
+  Future<void> sendVerificationEmail() async {
+    final user = _firebaseAuth.currentUser;
+    await user.sendEmailVerification();
   }
 
   @override

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/provider.dart';
 import 'package:flutter_alarm_rays7c/constants/loading.dart';
 import 'package:flutter_alarm_rays7c/models/widgets_model.dart';
+import 'package:provider/src/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -94,7 +96,11 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() => _isLoading = true);
       await auth.createUserWithEmailAndPassword(
           _emailController.text, _passController.text);
-      Navigator.pushReplacementNamed(context, '/home');
+      await auth.sendVerificationEmail();
+      Navigator.pushReplacementNamed(context, '/wrapper');
+      context
+          .read<NotificationFunctions>()
+          .fluttertoast('Please, check your email to verify your account!');
     } catch (error) {
       print(error);
       setState(() {

@@ -3,10 +3,11 @@ class AlarmInfo {
   String title;
   DateTime alarmDateTime;
 
-  AlarmInfo(
-      {this.id,
-      this.title,
-      this.alarmDateTime,});
+  AlarmInfo({
+    this.id,
+    this.title,
+    this.alarmDateTime,
+  });
 
   factory AlarmInfo.fromMap(Map<String, dynamic> json) => AlarmInfo(
         id: json["id"],

@@ -54,13 +54,13 @@ class NotificationService {
             enableLights: false,
             additionalFlags: Int32List.fromList(<int>[4]),
             fullScreenIntent: true,
-            sound: RawResourceAndroidNotificationSound('birds'),
+            sound: RawResourceAndroidNotificationSound('morning'),
             importance: Importance.max,
             enableVibration: true,
             priority: Priority.high,
             icon: '@mipmap/ic_launcher'),
         iOS: IOSNotificationDetails(
-          sound: 'birds.mp3',
+          sound: 'morning.mp3',
           presentAlert: true,
           presentBadge: true,
           presentSound: true,
@@ -80,14 +80,14 @@ class NotificationService {
         enableLights: true,
         additionalFlags: Int32List.fromList(<int>[4]),
         fullScreenIntent: true,
-        sound: RawResourceAndroidNotificationSound('birds'),
+        sound: RawResourceAndroidNotificationSound('morning'),
         importance: Importance.max,
         enableVibration: true,
         priority: Priority.high,
         icon: '@mipmap/ic_launcher');
 
     var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-        sound: 'birds.mp3',
+        sound: 'morning.mp3',
         presentAlert: true,
         presentBadge: true,
         presentSound: true);
@@ -96,7 +96,7 @@ class NotificationService {
         iOS: iOSPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        alarmInfo.id,
+        1,
         'Your alarm is up!',
         DateFormat('HH:mm').format(scheduledNotificationDateTime),
         tz.TZDateTime.now(tz.local)

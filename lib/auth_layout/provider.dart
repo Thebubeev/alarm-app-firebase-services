@@ -22,9 +22,9 @@ class NotificationFunctions extends ChangeNotifier {
       title: 'Your alarm is set!',
     );
     _alarmHelper.insertAlarm(alarmInfo);
-    loadAlarms();
     NotificationService()
         .showNotification(scheduleAlarmDateTime, alarmInfo, context);
+    loadAlarms();
     notifyListeners();
   }
 
@@ -105,7 +105,6 @@ class NotificationFunctions extends ChangeNotifier {
   void deleteAlarm(int id) {
     _alarmHelper.delete(id);
     NotificationService().cancelNotifications(1);
-    loadAlarms();
     notifyListeners();
   }
 }

@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
+import 'package:flutter_alarm_rays7c/auth_layout/provider.dart';
 import 'package:flutter_alarm_rays7c/constants/loading.dart';
 import 'package:flutter_alarm_rays7c/models/widgets_model.dart';
+import 'package:provider/src/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -12,6 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final Auth auth = Auth();
+  final _firebaseAuth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
   final _emailController = TextEditingController();
@@ -95,9 +99,16 @@ class _LoginPageState extends State<LoginPage> {
   void _submitForm() async {
     try {
       setState(() => _isLoading = true);
-      await auth.signInWithEmailAndPassword(
-          _emailController.text, _passController.text);
-      Navigator.pushReplacementNamed(context, '/home');
+      await auth
+          .signInWithEmailAndPassword(
+              _emailController.text, _passController.text)
+          .then((_) => _firebaseAuth.currentUser.emailVerified
+              ? Navigator.pushReplacementNamed(context, '/home')
+              : {
+                  Navigator.pushReplacementNamed(context, '/wrapper'),
+                  context.read<NotificationFunctions>().fluttertoast(
+                      'Please, check your email to verify your account!')
+                });
     } catch (error) {
       print(error);
       setState(() {
@@ -109,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
             _warning = "There is no user with those credentials";
           });
           break;
- case "[firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.":
+        case "[firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.":
           setState(() {
             _warning = "Too many requests. Try again later!";
           });

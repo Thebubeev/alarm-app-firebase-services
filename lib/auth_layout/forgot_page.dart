@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
 import 'package:flutter_alarm_rays7c/constants/constants.dart';
