@@ -1,15 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_rays7c/models/user_model.dart';
 
 import '../models/message_model.dart';
 
 class MessageWidget extends StatelessWidget {
   final Message message;
   final bool isMe;
+  final FirestoreUser user;
 
-  const MessageWidget({
-    @required this.message,
-    @required this.isMe,
-  });
+  const MessageWidget(
+      {@required this.message, @required this.isMe, @required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,8 @@ class MessageWidget extends StatelessWidget {
       children: <Widget>[
         if (!isMe)
           CircleAvatar(
-              radius: 16, backgroundImage: NetworkImage(message.imageUrl)),
+              radius: 16,
+              backgroundImage: CachedNetworkImageProvider(user.imageUrl)),
         Container(
           padding: EdgeInsets.all(12),
           margin: EdgeInsets.all(8),

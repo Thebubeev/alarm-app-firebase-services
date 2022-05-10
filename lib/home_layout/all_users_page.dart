@@ -43,7 +43,7 @@ class _AllUsersPageState extends State<AllUsersPage> {
                               height: 160,
                               child: CachedNetworkImage(
                                   imageUrl: currentUser.photoURL ??
-                                      'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'),
+                                      'https://upload.wikimedia.org/wikipedia/commons/7/72/Default-welcomer.png'),
                             )),
                           ),
                           SizedBox(
@@ -78,7 +78,8 @@ class _AllUsersPageState extends State<AllUsersPage> {
                                     builder: (context) => ChatPage(
                                           user: snapshot.data[index],
                                           friendName: snapshot.data[index].name,
-                                          friendUid: snapshot.data[index].idUser,
+                                          friendUid:
+                                              snapshot.data[index].idUser,
                                         )));
                           },
                           title: Text(snapshot.data[index].name),

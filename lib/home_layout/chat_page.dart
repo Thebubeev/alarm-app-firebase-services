@@ -125,30 +125,33 @@ class _ChatPageState extends State<ChatPage> {
               child: StreamBuilder<List<Message>>(
                 stream: FirestoreService.getAllMessages(chatDocId),
                 builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Container();
-                    default:
-                      if (snapshot.hasError) {
-                        return buildText('Something Went Wrong');
-                      } else {
-                        final messages = snapshot.data;
-
-                        return messages.isEmpty
-                            ? buildText('Type any messages to show it..')
-                            : ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                reverse: true,
-                                itemCount: messages.length,
-                                itemBuilder: (context, index) {
-                                  final message = messages[index];
-                                  return MessageWidget(
-                                    message: message,
-                                    isMe: message.uid == currentUser.uid,
-                                  );
-                                },
+                  if (snapshot.hasError) {
+                    return buildText('Something Went Wrong');
+                  }
+                  if (snapshot.hasData) {
+                    final messages = snapshot.data;
+                    return messages.isEmpty
+                        ? buildText('Say hi...')
+                        : ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            reverse: true,
+                            itemCount: messages.length,
+                            itemBuilder: (context, index) {
+                              final message = messages[index];
+                              return MessageWidget(
+                                message: message,
+                                isMe: message.uid == currentUser.uid,
+                                user: widget.user
                               );
-                      }
+                            },
+                          );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return Container();
                   }
                 },
               ),
