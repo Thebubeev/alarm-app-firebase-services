@@ -44,7 +44,9 @@ class _ChatPageState extends State<ChatPage> {
         .get()
         .then((snapshot) async {
           if (snapshot.docs.isNotEmpty) {
-            chatDocId = snapshot.docs.single.id;
+            setState(() {
+              chatDocId = snapshot.docs.single.id;
+            });
             print('-------chatDocId: $chatDocId');
           } else {
             await chats.add({
@@ -125,7 +127,7 @@ class _ChatPageState extends State<ChatPage> {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return Center(child: CircularProgressIndicator());
+                      return Container();
                     default:
                       if (snapshot.hasError) {
                         return buildText('Something Went Wrong');
