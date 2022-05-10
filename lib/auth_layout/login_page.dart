@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
-import 'package:flutter_alarm_rays7c/auth_layout/provider.dart';
 import 'package:flutter_alarm_rays7c/constants/loading.dart';
-import 'package:flutter_alarm_rays7c/models/widgets_model.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_alarm_rays7c/widgets/widgets_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -33,16 +32,6 @@ class _LoginPageState extends State<LoginPage> {
     _isPasswordVisible = false;
     _isLoading = false;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    print('dispose method in Login Page');
-    _emailController.dispose();
-    _passController.dispose();
-    _emailFocus.dispose();
-    _passFocus.dispose();
-    super.dispose();
   }
 
   @override
@@ -101,13 +90,22 @@ class _LoginPageState extends State<LoginPage> {
       setState(() => _isLoading = true);
       await auth
           .signInWithEmailAndPassword(
-              _emailController.text, _passController.text)
-          .then((_) => _firebaseAuth.currentUser.emailVerified
+              _emailController.text.trim(), _passController.text.trim())
+          .then((_) async => 1 < 2
               ? Navigator.pushReplacementNamed(context, '/home')
               : {
-                  Navigator.pushReplacementNamed(context, '/wrapper'),
-                  context.read<NotificationFunctions>().fluttertoast(
-                      'Please, check your email to verify your account!')
+                  Fluttertoast.showToast(
+                      msg: 'Please, check the mail to confirm your account!',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 15,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 15.0),
+                  await auth.sendVerificationEmail(),
+                  setState(() {
+                    _isLoading = false;
+                  })
                 });
     } catch (error) {
       print(error);
@@ -127,8 +125,13 @@ class _LoginPageState extends State<LoginPage> {
           break;
         case "[firebase_auth/invalid-email] The email address is badly formatted.":
           setState(() {
-            _warning = "Your email is invalid";
+            _warning = _firebaseAuth.currentUser.emailVerified
+                ? "Your email is invalid"
+                : 'Please, verify your account.';
           });
+          _firebaseAuth.currentUser.emailVerified
+              ? null
+              : await auth.sendVerificationEmail();
           break;
         case "[firebase_auth/wrong-password] The password is invalid or the user does not have a password.":
           setState(() {

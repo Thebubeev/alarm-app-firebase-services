@@ -2,11 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_rays7c/Services/firebase_auth_service.dart';
-import 'package:flutter_alarm_rays7c/constants/constants.dart';
 import 'package:flutter_alarm_rays7c/constants/loading.dart';
-import 'package:flutter_alarm_rays7c/models/widgets_model.dart';
+import 'package:flutter_alarm_rays7c/widgets/widgets_model.dart';
 import 'package:flutter_alarm_rays7c/auth_layout/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/src/provider.dart';
 
 class ForgotPassword extends StatefulWidget {

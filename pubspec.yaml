@@ -41,6 +41,14 @@ dependencies:
   sqflite: ^1.3.0
   hive_flutter: ^1.1.0
   provider: ^6.0.1
+  firebase_storage:
+  image_picker:
+  xfile: ^1.1.0
+  equatable: ^2.0.3
+  cloud_firestore: ^3.1.6
+  firebase_messaging: ^11.2.11
+  firebase_in_app_messaging: ^0.6.0+9
+  cached_network_image: 
 
 
 dev_dependencies:

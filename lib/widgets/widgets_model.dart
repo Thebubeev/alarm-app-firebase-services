@@ -6,6 +6,7 @@ void _fieldFocusChange(
   FocusScope.of(context).requestFocus(nextFocus);
 }
 
+final _nameFocus = FocusNode();
 final _emailFocus = FocusNode();
 final _passFocus = FocusNode();
 final _confirmPassFocus = FocusNode();
@@ -52,6 +53,50 @@ class _TextFormEmailFieldState extends State<TextFormEmailField> {
       onSaved: (val) {
         setState(() {
           widget.emailController.text = val;
+        });
+      },
+    );
+  }
+}
+
+class TextFormNameField extends StatefulWidget {
+  final TextEditingController nameController;
+  const TextFormNameField({Key key, this.nameController}) : super(key: key);
+
+  @override
+  State<TextFormNameField> createState() => _TextFormNameFieldState();
+}
+
+class _TextFormNameFieldState extends State<TextFormNameField> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Name',
+        labelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            fontFamily: 'Gilroy'),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+      ),
+      controller: widget.nameController,
+      autofocus: true,
+      onFieldSubmitted: (_) {
+        _fieldFocusChange(context, _nameFocus, _emailFocus);
+      },
+      focusNode: _nameFocus,
+      validator: (val) {
+        if (val.isEmpty) {
+          return 'Enter name';
+        } else {
+          return null;
+        }
+      },
+      onSaved: (val) {
+        setState(() {
+          widget.nameController.text = val;
         });
       },
     );
@@ -162,7 +207,7 @@ class _TextFormConfirmPassFieldState extends State<TextFormConfirmPassField> {
           return 'Enter password';
         } else if (val.length < 6) {
           return 'Password must contain more than 6 letters';
-        } else if (val != widget.passController.text) {
+        } else if (val.trim() != widget.passController.text.trim()) {
           return "Password must be the same";
         } else {
           return null;
@@ -233,7 +278,8 @@ Widget iconBackButton(BuildContext context, String text) => IconButton(
       Navigator.pushNamed(context, '/$text');
     });
 
-Widget enterButton(GlobalKey<FormState> _formKey, Function _submitForm, String text) =>
+Widget enterButton(
+        GlobalKey<FormState> _formKey, Function _submitForm, String text) =>
     GestureDetector(
         onTap: () async {
           if (_formKey.currentState.validate()) // validate the textfields

@@ -26,8 +26,7 @@ class _AuthPageState extends State<AuthPage> {
     if (isEmailVerified == null) {
       return null;
     } else if (!isEmailVerified) {
-      timer =
-          Timer.periodic(Duration(seconds: 60), (_) => checkEmailVerified());
+      timer = Timer.periodic(Duration(seconds: 5), (_) => checkEmailVerified());
     }
   }
 
@@ -61,8 +60,8 @@ class _AuthPageState extends State<AuthPage> {
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
-                  if (isEmailVerified == false) {
-                    return Wrapper();
+                  if (isEmailVerified == false || isEmailVerified == null) {
+                    return HomeLayout();
                   } else {
                     return HomeLayout();
                   }
