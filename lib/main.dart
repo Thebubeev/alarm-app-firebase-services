@@ -62,9 +62,10 @@ class _MyAppState extends State<MyApp> {
           '/signIn': (context) => LoginPage(),
           '/wrapper': (context) => Wrapper(),
           '/forgot': (context) => ForgotPassword(),
-          '/home': (context) => HomeLayout()
+          '/home': (context) => HomeLayout(),
+          '/auth': ((context) => AuthPage())
         },
-        initialRoute: '/home',
+        initialRoute: '/auth',
         title: 'Flutter Demo',
         home: AuthPage(),
       ),

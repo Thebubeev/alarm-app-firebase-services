@@ -22,6 +22,7 @@ class MessageWidget extends StatelessWidget {
       children: <Widget>[
         if (!isMe)
           CircleAvatar(
+              backgroundColor: Colors.white,
               radius: 16,
               backgroundImage: CachedNetworkImageProvider(user.imageUrl)),
         Container(

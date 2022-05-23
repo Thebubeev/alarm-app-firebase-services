@@ -13,7 +13,7 @@ class FirestoreService {
   static Stream<List<Message>> getAllMessages(chatDocId) {
     return FirebaseFirestore.instance
         .collection('chats')
-        .doc(chatDocId)
+        .doc(chatDocId.toString())
         .collection('messages')
         .orderBy('createdAt', descending: true)
         .snapshots()

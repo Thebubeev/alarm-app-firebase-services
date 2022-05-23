@@ -89,7 +89,7 @@ class Auth implements AuthBase {
       name: _firebaseAuth.currentUser.displayName,
       email: _firebaseAuth.currentUser.email,
       imageUrl: _firebaseAuth.currentUser.photoURL ??
-          'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
+          'https://upload.wikimedia.org/wikipedia/commons/7/72/Default-welcomer.png',
       lastMessageTime: DateTime.now(),
     );
     await _firestore.collection('users').add(newUser.toMap());

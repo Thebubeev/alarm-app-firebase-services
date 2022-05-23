@@ -83,6 +83,7 @@ class _ChatPageState extends State<ChatPage> {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
+                        color: Colors.white,
                         width: 40,
                         height: 40,
                         child: CachedNetworkImage(
@@ -139,10 +140,9 @@ class _ChatPageState extends State<ChatPage> {
                             itemBuilder: (context, index) {
                               final message = messages[index];
                               return MessageWidget(
-                                message: message,
-                                isMe: message.uid == currentUser.uid,
-                                user: widget.user
-                              );
+                                  message: message,
+                                  isMe: message.uid == currentUser.uid,
+                                  user: widget.user);
                             },
                           );
                   }
@@ -164,19 +164,21 @@ class _ChatPageState extends State<ChatPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _controller,
                       textCapitalization: TextCapitalization.sentences,
                       autocorrect: true,
                       enableSuggestions: true,
                       decoration: InputDecoration(
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
                         filled: true,
                         fillColor: Colors.grey[100],
                         hintText: 'Type your message',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 0),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
                       ),
                       onChanged: (value) => setState(() {
                         message = value;

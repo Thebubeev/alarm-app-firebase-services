@@ -56,11 +56,11 @@ class _RegisterPageState extends State<RegisterPage> {
     return _isLoading
         ? Loading()
         : Scaffold(
-            body: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Form(
-                key: _formKey,
-                child: SafeArea(
+            body: SafeArea(
+              child: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Form(
+                  key: _formKey,
                   child: ListView(
                     padding: EdgeInsets.all(30),
                     children: [
@@ -144,7 +144,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(
                         height: 30,
                       ),
-                      enterButton(_formKey, _submitForm, 'Sign Up')
+                      enterButton(_formKey, _submitForm, 'Sign Up'),
+                      SizedBox(
+                        height: 60,
+                      ),
                     ],
                   ),
                 ),

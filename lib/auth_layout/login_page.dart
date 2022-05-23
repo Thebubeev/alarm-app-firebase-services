@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
       await auth
           .signInWithEmailAndPassword(
               _emailController.text.trim(), _passController.text.trim())
-          .then((_) async => 1 < 2
+          .then((_) async => _firebaseAuth.currentUser.emailVerified
               ? Navigator.pushReplacementNamed(context, '/home')
               : {
                   Fluttertoast.showToast(

@@ -37,7 +37,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future checkEmailVerified() async {
-    await _firebaseAuth.currentUser.reload();
+    await _firebaseAuth.currentUser?.reload();
     isEmailVerified = _firebaseAuth.currentUser.emailVerified;
     if (isEmailVerified) {
       timer?.cancel();
@@ -61,7 +61,7 @@ class _AuthPageState extends State<AuthPage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (isEmailVerified == false || isEmailVerified == null) {
-                    return HomeLayout();
+                    return Wrapper();
                   } else {
                     return HomeLayout();
                   }
